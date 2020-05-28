@@ -1,0 +1,17 @@
+var express = require('express');
+const ***table_u***Controller = require('../controllers/***table***Controller');
+class ***table***Router {
+    constructor() {
+        this.router = express.Router();
+        this.initRouter();
+    }
+
+    initRouter() {
+        this.router.post('', (req, res, next) => ***table_u***Controller.add***table_u***(req, res, next));
+        this.router.put('', (req, res, next) => ***table_u***Controller.update***table_u***(req, res, next));
+        this.router.delete('', (req, res, next) => ***table_u***Controller.delete***table_u***(req, res, next));
+        this.router.get('', (req, res, next) => ***table_u***Controller.getList***table_u***(req, res, next));
+    }
+}
+
+module.exports = new ***table***Router().router;

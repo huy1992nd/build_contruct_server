@@ -3,10 +3,9 @@ var fs = require("fs");
 var path = require("path");
 var Sequelize = require("sequelize");
 var main = require("../config/main");
-
-// process.env.NODE_ENV ||
+// let env = process.env.NODE_ENV;
 var env = main.ENV;
-var config = require(path.join(__dirname, '..', 'configdb', env, 'config.json'));
+var config = require(path.join(__dirname, '..', 'configdb/', env, '/config.json'));
 console.log('database use: ', config);
 
 config.define = {timestamps: false};

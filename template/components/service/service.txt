@@ -6,92 +6,110 @@ class ***table***Service {
 
     add***table_u***(input) {
         return new Promise((resolve, reject) => {
-            let ***table***_create = ***dataField*** ;
-            ***table_u***.create(***table***_create)
+            try {
+                let ***table***_create = ***dataField*** ;
+                ***table_u***.create(***table***_create)
                 .then(***table*** => {
                     resolve(***table***)
                 })
                 .catch(err => {
                     reject(err)
                 });
+            } catch (error) {
+                reject(error);
+            }
+            
         })
     }
 
     update***table_u***(input) {
         return new Promise((resolve, reject) => {
-            let id = input.id;
-            let data_update = ***dataField*** ;
-            ***table_u***.update(
-                data_update,
-                { where: { id } }
-            )
+            try {
+                let id = input.id;
+                let data_update = ***dataField*** ;
+                ***table_u***.update(
+                    data_update,
+                    { where: { id } }
+                )
                 .then(result =>
                     resolve(true)
                 )
                 .catch(err =>
                     reject(err)
                 )
+            } catch (error) {
+                reject(error);
+            }
         })
     }
 
     delete***table_u***(id) {
         return new Promise((resolve, reject) => {
-            ***table_u***.update(
-                { deleted: 1 },
-                { where: { id } }
-            )
+            try {
+                ***table_u***.update(
+                    { deleted: 1 },
+                    { where: { id } }
+                )
                 .then(result =>
                     resolve(true)
                 )
                 .catch(err =>
                     reject(err)
                 )
+            } catch (error) {
+                reject(error);
+            }
         })
     }
 
     list***table_u***(str_search, limit, offset) {
         return new Promise((resolve, reject) => {
-            let options = {
-                where: {
-                    deleted: 0
-                }
-            };
-            if (str_search) {
-                options = {
-                    offset: offset,
-                    limit: limit,
+            try {
+                let options = {
                     where: {
                         deleted: 0
                     }
                 };
-            }
-            ***table_u***.findAll(options)
-                .then(result => {
-                    resolve(result)
+                if (str_search) {
+                    options = {
+                        offset: offset,
+                        limit: limit,
+                        where: {
+                            deleted: 0
+                        }
+                    };
                 }
-                )
-                .catch(err => {
-                    console.log('err', err);
-                    reject(err)
-                }
+                ***table_u***.findAll(options)
+                    .then(result => {
+                        resolve(result)
+                    }
+                    )
+                    .catch(err => {
+                        console.log('err', err);
+                        reject(err)
+                    }
                 );
+            } catch (error) {
+                reject(error);
+            }
         })
     }
 
     checkDuplicate(name, id = null) {
         return new Promise((resolve, reject) => {
-            let where = {
-                name: name,
-                deleted: 0
-            }
-            if (id) {
-                where["id"] = {
-                    [Op.notIn]: [id]
+            try {
+                let where = {
+                    name: name,
+                    deleted: 0
                 }
-            }
-            ***table_u***.findOne({
-                where: where
-            })
+                if (id) {
+                    where["id"] = {
+                        [Op.notIn]: [id]
+                    }
+                }
+                ***table_u***.findOne({
+                    where: where
+                })
                 .then(result => {
                     if (result) {
                         resolve(true);
@@ -102,6 +120,9 @@ class ***table***Service {
                 .catch(err => {
                     reject(err);
                 });
+            } catch (error) {
+                reject(error);
+            }
         })
     }
 }

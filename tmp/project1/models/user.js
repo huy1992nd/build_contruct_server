@@ -34,7 +34,7 @@ module.exports = function(sequelize, DataTypes) {
     }
   });
   User.associate = (models) => {
-    User.belongsTo(models.room, {
+    User.belongsTo(models.Room, {
       foreignKey: 'roomId'
     })
   }

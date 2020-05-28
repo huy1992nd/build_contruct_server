@@ -3,9 +3,10 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const path = require("path");
-let env = process.env.NODE_ENV;
-env = 'dev';
-const config = require('./config/' + env +"/main");
+var main = require("./config/main");
+// let env = process.env.NODE_ENV;
+var env = main.ENV;
+const config = require('./config/' + env +"/config");
 
 require("./models/index");
 const log = require('./utils/logger');

@@ -1,71 +1,97 @@
 const ***table***Service = require('../services/***table***.service'); 
-
+const define_a = require('../define');
+const MESSAGE = define_a.MESSAGE;
+const log = require('../utils/logger');
 class ***table_u***Controller {
     constructor() {
     }
 
     async add***table_u***(req, res, next) {
-        let body = req.body;
-        let validateInput = await this.validateInput(body, 1);
-        if (!validateInput.status) {
-            res.json({ code: 1, message: validateInput.error_message });
-            return;
-        }
+        try {
+            let body = req.body;
+            let validateInput = await this.validateInput(body, 1);
+            if (!validateInput.status) {
+                res.json({ code: 1, message: validateInput.error_message });
+                return;
+            }
 
-        let add_***table*** = await ***table***Service.add***table_u***(body);
-        if (add_***table***) {
-            res.json({ code: 0, message: message.ADD_***table***_SUCCESS });
-        } else {
-            res.json({ code: 1, message: message.ERROR });
+            let add_***table*** = await ***table***Service.add***table_u***(body);
+            if (add_***table***) {
+                res.json({ code: 0, message: MESSAGE.ADD_SUCCESS });
+            } else {
+                res.json({ code: 1, message: MESSAGE.ERROR });
+            }
+        } catch (error) {
+            res.json({ code: 1, message: MESSAGE.ERROR });
+            log.error('error', `${error.stack.toString()}`);
+            console.log('error', error);
         }
+        
     }
 
     async update***table_u***(req, res, next) {
-        let body = req.body;
-        console.log('body', body);
-
-        if (!body.id || typeof(body.id) == "undefined") {
-            res.json({ code: 1, message: message.INCORRECT_DATA });
-            return;
-        }
-        let validateInput = await this.validateInput(body, 1);
-        if (!validateInput.status) {
-            res.json({ code: 1, message: validateInput.error_message });
-            return;
-        }
-        let update_***table*** = ***table***Service.update***table_u***(body);
-        if (update_***table***) {
-            res.json({ code: 0, message: message.EDIT_***table***_SUCCESS });
-        } else {
-            res.json({ code: 1, message: message.ERROR });
+        try {
+            let body = req.body;
+            console.log('body', body);
+            if (!body.id || typeof(body.id) == "undefined") {
+                res.json({ code: 1, message: MESSAGE.INCORRECT_DATA });
+                return;
+            }
+            let validateInput = await this.validateInput(body, 1);
+            if (!validateInput.status) {
+                res.json({ code: 1, message: validateInput.error_message });
+                return;
+            }
+            let update_***table*** = ***table***Service.update***table_u***(body);
+            if (update_***table***) {
+                res.json({ code: 0, message: MESSAGE.EDIT_SUCCESS });
+            } else {
+                res.json({ code: 1, message: MESSAGE.ERROR });
+            }
+        } catch (error) {
+            res.json({ code: 1, message: MESSAGE.ERROR });
+            log.error('error', `${error.stack.toString()}`);
+            console.log('error', error);
         }
     }
 
     async delete***table_u***(req, res, next) {
-        let body = req.body;
-        if (!body.id || typeof(body.id) == "undefined") {
-            res.json({ code: 1, message: message.INCORRECT_DATA });
-            return;
-        }
-        let delete_***table*** = await ***table***Service.delete***table_u***(body.id);
-        if (delete_***table***) {
-            res.json({ code: 0, message: message.DELETE_***table***_SUCCESS });
-        } else {
-            res.json({ code: 1, message: message.ERROR });
+        try {
+            let body = req.body;
+            if (!body.id || typeof(body.id) == "undefined") {
+                res.json({ code: 1, message: MESSAGE.INCORRECT_DATA });
+                return;
+            }
+            let delete_***table*** = await ***table***Service.delete***table_u***(body.id);
+            if (delete_***table***) {
+                res.json({ code: 0, message: MESSAGE.DELETE_SUCCESS });
+            } else {
+                res.json({ code: 1, message: MESSAGE.ERROR });
+            }
+        } catch (error) {
+            res.json({ code: 1, message: MESSAGE.ERROR });
+            log.error('error', `${error.stack.toString()}`);
+            console.log('error', error);
         }
     }
 
     async getList***table_u***(req, res, next) {
-        let query = req.query;
-        let str_search = query.search || "";
+        try {
+            let query = req.query;
+            let str_search = query.search || "";
 
-        let limit = query.limit ? parseInt(query.limit) : LIMIT_DEFAULT;
-        let offset = query.offset ? parseInt(query.offset) : OFFSET_DEFAULT;
-        let list_***table*** = await ***table***Service.list***table_u***(str_search, limit, offset);
-        if (list_***table***) {
-            res.json({ code: 0, list_***table***: list_***table*** });
-        } else {
-            res.json({ code: 1, message: message.ERROR });
+            let limit = query.limit ? parseInt(query.limit) : define_a.LIMIT_DEFAULT;
+            let offset = query.offset ? parseInt(query.offset) : define_a.OFFSET_DEFAULT;
+            let list_***table*** = await ***table***Service.list***table_u***(str_search, limit, offset);
+            if (list_***table***) {
+                res.json({ code: 0, list_***table***: list_***table*** });
+            } else {
+                res.json({ code: 1, message: MESSAGE.ERROR });
+            }        
+        } catch (error) {
+            res.json({ code: 1, message: MESSAGE.ERROR });
+            log.error('error', `${error.stack.toString()}`);
+            console.log('error', error);
         }
     }
 

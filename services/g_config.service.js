@@ -19,7 +19,6 @@ class GConfigService extends GenerateService {
                         type : "js",
                         data_config : {
                             "port": item.server.port,
-                            "env": item.environment_name,
                             "clientId": item.keyCloak.clientId,
                             "clientSecret": item.keyCloak.clientSecret,
                             "bearerOnly": item.keyCloak.bearerOnly,
@@ -27,8 +26,8 @@ class GConfigService extends GenerateService {
                             "realm": item.keyCloak.realm,
                             "realmPublicKey": item.keyCloak.realmPublicKey
                         },
-                        template_file_name : "main.js",
-                        name : "main.js",
+                        template_file_name : "config.js",
+                        name : "config.js",
                         dir_save : g_define.PATH.FOLDER.TMP.PROJECT+this.project.name+"/config/"+item.environment_name,
                     }
                     this.listFile.push(file_item);

@@ -6,6 +6,8 @@ var GPackageService = require('../services/g_package.service');
 var GModelService = require('../services/g_model.service');
 var GControllerService = require('../services/g_controller.service');
 var GServiceService = require('../services/g_service.service');
+var GSubRouterService = require('../services/g_sub_router.service');
+var GRouterService = require('../services/g_router.service');
 const Helper = require('../common/helper.class');
 class ProjectController {
     constructor(project) {
@@ -16,6 +18,8 @@ class ProjectController {
         this.GModelService = new GModelService(project.data.models, project);
         this.GControllerService = new GControllerService(project.data.models, project);
         this.GServiceService = new GServiceService(project.data.models, project);
+        this.GSubRouterService = new GSubRouterService(project.data.models, project);
+        this.GRouterService = new GRouterService(project.data.models, project);
     }
 
     async generateProject() {
@@ -36,6 +40,10 @@ class ProjectController {
             await this.GControllerService.generateCode();
             // Generate services
             await this.GServiceService.generateCode();
+            // Generate sub Router
+            await this.GSubRouterService.generateCode();
+            // Generate router
+            await this.GRouterService.generateCode();
         } catch (error) {
             console.log('have error', error);
         }
