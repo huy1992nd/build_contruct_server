@@ -1,0 +1,14 @@
+{
+    "host": "135.187.243.177",
+    "pool": {
+        "max": 5,
+        "min": 0,
+        "idle": 10000,
+        "acquire": 30000
+    },
+    "dialect": "mysql",
+    "database": "test",
+    "password": "abc@123456-",
+    "username": "toanpk",
+    "operatorsAliases": false
+}

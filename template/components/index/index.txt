@@ -1,0 +1,100 @@
+const Keycloak = require('keycloak-connect');
+const passport = require('passport');
+const express = require('express');
+const app = express();
+const bodyParser = require('body-parser');
+const path = require("path");
+const config = require('./config/main');
+
+global.clientRedis = redis.createClient(config.REDIS.PORT, config.REDIS.HOST);
+clientRedis.AUTH(config.REDIS.PASSWORD);
+global.pubsub = redis.createClient(config.REDIS.PORT, config.REDIS.HOST);
+
+require('./redis/pubsub');
+require("./models/index");
+const log = require('./utils/logger');
+const messagesList = require('./utils/messages');
+const response = require('./utils/response');
+const httpStatus = require('./utils/httpStatus');
+const router = require('./router');
+let server = null;
+var session = require('express-session');
+
+// start keycloak config
+var memoryStore = new session.MemoryStore();
+app.use(session({ secret: config.KEY_CROAK_SERET, resave: false, saveUninitialized: true, store: memoryStore }));
+// var keycloak = new Keycloak({store: memoryStore });
+let keycloak = new Keycloak({ store: memoryStore }, config.REALMS_KEYCLOAK_CONFIG);
+app.use( keycloak.middleware({ logout: '/logout', admin: '/', }));
+// end keycloak config
+
+// let testProducer = require('./services/producer');
+// testProducer.producerGetNearBy('NEARBY', 'pham khanh toan test');
+
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
+process.setMaxListeners(0);
+// Enable CORS from client-side
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization, Access-Control-Allow-Credentials');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  next();
+});
+
+server = app.listen(config.PORT, () => {
+  console.log('server listen port: ' + config.PORT);
+});
+router(app, keycloak, passport);
+// http://expressjs.com/en/guide/error-handling.html
+app.use(function (err, req, res, next) {
+  let message = err.message || err.stack || '';
+  log.error('error', `${err.stack.toString()} | api: ${req.path} | body_Request: ${req.body ? JSON.stringify(req.body) : ''}`);
+  console.log('error', `${err.stack.toString()} | api: ${req.path} | body_Request: ${req.body ? JSON.stringify(req.body) : ''}`);
+  res.err = message;
+  switch (err.status) {
+    case httpStatus.NOT_FOUND:
+      res.status(httpStatus.NOT_FOUND).json(response.responseError(messagesList.messageCommon.error, message));
+      // ({ code: main.CODE.ERROR, message: messagesList.messageCommon.error, error: message });
+      break;
+    case httpStatus.SERVER_ERROR:
+      res.status(httpStatus.SERVER_ERROR).json(response.responseError(messagesList.messageCommon.error, message));
+      break;
+    case httpStatus.BAD_REQUEST:
+      res.status(httpStatus.SERVER_ERROR).json(response.responseError(messagesList.messageCommon.error, message));
+      break;
+    case httpStatus.NOTIFICATION_ERROR:
+      // res.status(httpStatus.SERVER_ERROR).json({ code: main.CODE.ERROR, message: messagesList.messageCommon.error, error: err.stack });
+      console.log(err.stack);
+      break;
+    default:
+      res.status(httpStatus.SERVER_ERROR).json(response.responseError(messagesList.messageCommon.error, message));
+      break;
+  }
+});
+// ================================ init with param belows ========================
+
+console.log('ip Server: ', config.IPSERVER);
+
+console.log('ip Kafka: ', config.KAFKA_SERVER);
+console.log('ip Redis: ', config.REDIS.HOST);
+console.log('ip Location: ', config.LOCATION.ip);
+console.log('ip Image: ', config.IMAGE_SERVER.HOST);
+console.log('userSamba: ', config.IMAGE_SERVER.USERNAME);
+console.log('url_images: ', config.IMAGE_SERVER.URL_IMAGES);
+
+console.log('realmsPublicKey: ', config.REALMS_KEYCLOAK_CONFIG.realm);
+console.log('clientName: ', config.REALMS_KEYCLOAK_CONFIG.clientId);
+console.log('ipKeyCloak: ', config.REALMS_KEYCLOAK_CONFIG.serverUrl);
+
+console.log('base_url: ', config.WEB.BASE_URL);
+console.log('urlServiceAuthen: ', config.URL_SERVICE_AUTHEN);
+console.log('urlSocket: ', config.URL_SOCKET);
+console.log('finish');
+
+// ================================ the end -============== ========================
+module.exports = server;
+

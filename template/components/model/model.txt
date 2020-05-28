@@ -1,0 +1,8 @@
+"use strict";
+module.exports = function (sequelize, DataTypes) {
+  var ***table*** = sequelize.define("***table***", ***field***
+  );
+  ***table***.associate = (models) => 
+     ***associate***
+     return ***table***;
+};

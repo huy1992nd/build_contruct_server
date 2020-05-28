@@ -1,0 +1,109 @@
+
+const ***table_u*** = require('../models').***table_u***;
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
+class ***table***Service {
+
+    add***table_u***(input) {
+        return new Promise((resolve, reject) => {
+            let ***table***_create = ***dataField*** ;
+            ***table_u***.create(***table***_create)
+                .then(***table*** => {
+                    resolve(***table***)
+                })
+                .catch(err => {
+                    reject(err)
+                });
+        })
+    }
+
+    update***table_u***(input) {
+        return new Promise((resolve, reject) => {
+            let id = input.id;
+            let data_update = ***dataField*** ;
+            ***table_u***.update(
+                data_update,
+                { where: { id } }
+            )
+                .then(result =>
+                    resolve(true)
+                )
+                .catch(err =>
+                    reject(err)
+                )
+        })
+    }
+
+    delete***table_u***(id) {
+        return new Promise((resolve, reject) => {
+            ***table_u***.update(
+                { deleted: 1 },
+                { where: { id } }
+            )
+                .then(result =>
+                    resolve(true)
+                )
+                .catch(err =>
+                    reject(err)
+                )
+        })
+    }
+
+    list***table_u***(str_search, limit, offset) {
+        return new Promise((resolve, reject) => {
+            let options = {
+                where: {
+                    deleted: 0
+                }
+            };
+            if (str_search) {
+                options = {
+                    offset: offset,
+                    limit: limit,
+                    where: {
+                        deleted: 0
+                    }
+                };
+            }
+            ***table_u***.findAll(options)
+                .then(result => {
+                    resolve(result)
+                }
+                )
+                .catch(err => {
+                    console.log('err', err);
+                    reject(err)
+                }
+                );
+        })
+    }
+
+    checkDuplicate(name, id = null) {
+        return new Promise((resolve, reject) => {
+            let where = {
+                name: name,
+                deleted: 0
+            }
+            if (id) {
+                where["id"] = {
+                    [Op.notIn]: [id]
+                }
+            }
+            ***table_u***.findOne({
+                where: where
+            })
+                .then(result => {
+                    if (result) {
+                        resolve(true);
+                    } else {
+                        resolve(false);
+                    }
+                })
+                .catch(err => {
+                    reject(err);
+                });
+        })
+    }
+}
+
+module.exports = new ***table***Service();
