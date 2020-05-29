@@ -4,7 +4,6 @@ const app = express();
 const bodyParser = require('body-parser');
 const path = require("path");
 var main = require("./config/main");
-// let env = process.env.NODE_ENV;
 var env = main.ENV;
 const config = require('./config/' + env +"/config");
 

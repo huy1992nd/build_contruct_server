@@ -1,0 +1,33 @@
+var masterDataArr = [
+    { name: 'customerGroup', modelPath: '../../databases/customerMaster/models/1.customerGroup' },
+    { name: 'paymentTerms', modelPath: '../../databases/customerMaster/models/2.paymentTerms' },
+    { name: 'block', modelPath: '../../databases/customerMaster/models/3.block' },
+    { name: 'leads', modelPath: '../../databases/customerMaster/models/4.leads' },
+    { name: 'contactRelationship', modelPath: '../../databases/customerMaster/models/5.contactRelationship' },
+    { name: 'customerAccountGroup', modelPath: '../../databases/customerMaster/models/6.customerAccountGroup' },
+    { name: 'company', modelPath: '../../databases/customerMaster/models/7.company' },
+    { name: 'taxclass', modelPath: '../../databases/customerMaster/models/8.taxclass' },
+    { name: 'occupation', modelPath: '../../databases/customerMaster/models/9.occupation' },
+    { name: 'customer', modelPath: '../../databases/customerMaster/models/10.customer' },
+    { name: 'customerDetails', modelPath: '../../databases/customerMaster/models/11.customerDetails' },
+    { name: 'customerFinance', modelPath: '../../databases/customerMaster/models/12.customerFinance' },
+    { name: 'customerContact', modelPath: '../../databases/customerMaster/models/13.customerContact' },
+    { name: 'employmentSector', modelPath: '../../databases/customerMaster/models/14.employmentSector' },
+    { name: 'industry', modelPath: '../../databases/customerMaster/models/15.industry' },
+    { name: 'annualIncome', modelPath: '../../databases/customerMaster/models/16.annualIncome' },
+    { name: 'maritalStatus', modelPath: '../../databases/customerMaster/models/17.maritalStatus' },
+    { name: 'branch', modelPath: '../../databases/customerMaster/models/18.branch' },
+    { name: 'businessStream', modelPath: '../../databases/customerMaster/models/19.businessStream' },
+    { name: 'storageLocation', modelPath: '../../databases/customerMaster/models/20.storageLocation' },
+    { name: 'businessType', modelPath: '../../databases/customerMaster/models/21.businessType' },
+    { name: 'branchBusinessStream', modelPath: '../../databases/customerMaster/models/22.branchBusinessStream' },
+    { name: 'branchBusinessType', modelPath: '../../databases/customerMaster/models/23.branchBusinessType' },
+    { name: 'companyBranch', modelPath: '../../databases/customerMaster/models/24.companyBranch' },
+    { name: 'storage', modelPath: '../../databases/customerMaster/models/25.storage' },
+    { name: 'employmentStatus', modelPath: '../../databases/customerMaster/models/27.employmentStatus' },
+    { name: 'customerType', modelPath: '../../databases/customerMaster/models/28.customerType' },
+    { name: 'dealerGroup', modelPath: '../../databases/customerMaster/models/29.dealerGroup' },
+    { name: 'calendarIndicator', modelPath: '../../databases/customerMaster/models/32.calendarIndicator' }
+]
+
+module.exports = masterDataArr

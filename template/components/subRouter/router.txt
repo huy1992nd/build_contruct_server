@@ -10,7 +10,7 @@ class ***table***Router {
         this.router.post('', (req, res, next) => ***table_u***Controller.add***table_u***(req, res, next));
         this.router.put('', (req, res, next) => ***table_u***Controller.update***table_u***(req, res, next));
         this.router.delete('', (req, res, next) => ***table_u***Controller.delete***table_u***(req, res, next));
-        this.router.get('', (req, res, next) => ***table_u***Controller.getList***table_u***(req, res, next));
+        this.router.post('/search', (req, res, next) => ***table_u***Controller.search***table_u***(req, res, next));
     }
 }
 

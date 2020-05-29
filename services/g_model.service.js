@@ -37,8 +37,11 @@ class GModelService extends GenerateService {
 
     // Private
     generateField(list_field){
-        list_field["creator"] = {
-            type: "DataTypes.STRING(30)"
+        list_field["createdBy"] = {
+            type: "DataTypes.INTEGER"
+        }
+        list_field["updatedBy"] = {
+            type: "DataTypes.INTEGER"
         }
         list_field["createdAt"] = {
             type: "DataTypes.DATE",

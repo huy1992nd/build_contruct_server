@@ -31,7 +31,6 @@ class GenerateService {
             })
 
         } catch (error) {
-
             this.OnResolveError(error);
         }
 

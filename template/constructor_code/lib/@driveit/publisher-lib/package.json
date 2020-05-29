@@ -1,0 +1,65 @@
+{
+  "_from": "@driveit/publisher-lib@^1.0.20",
+  "_id": "@driveit/publisher-lib@1.0.20",
+  "_inBundle": false,
+  "_integrity": "sha512-CqqBFeHTCSbvsctTkdvQaxRdcCxWNfLXq9Qlx+gLnZlMXXNH4UHIA0C9dsbhmsdqASaPS6KVGOInMpp3ex+pRA==",
+  "_location": "/@driveit/publisher-lib",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "range",
+    "registry": true,
+    "raw": "@driveit/publisher-lib@^1.0.20",
+    "name": "@driveit/publisher-lib",
+    "escapedName": "@driveit%2fpublisher-lib",
+    "scope": "@driveit",
+    "rawSpec": "^1.0.20",
+    "saveSpec": null,
+    "fetchSpec": "^1.0.20"
+  },
+  "_requiredBy": [
+    "/@driveit/driveit-databases"
+  ],
+  "_resolved": "https://registry.npmjs.org/@driveit/publisher-lib/-/publisher-lib-1.0.20.tgz",
+  "_shasum": "2c5f6fdbf0adab90e5865290fd4189bab56dcd0d",
+  "_spec": "@driveit/publisher-lib@^1.0.20",
+  "_where": "E:\\Driver-It\\appointment-service\\node_modules\\@driveit\\driveit-databases",
+  "author": {
+    "name": "TC ITECH SDN. BHD."
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "@google-cloud/pubsub": "^1.1.5"
+  },
+  "deprecated": false,
+  "description": "Extention of sequelize model",
+  "devDependencies": {
+    "@types/config": "0.0.35",
+    "@types/jest": "^24.0.19",
+    "@types/sequelize": "^4.28.6",
+    "config": "^3.2.4",
+    "jest": "^24.9.0",
+    "sequelize": "^5.21.2",
+    "ts-jest": "^24.1.0",
+    "typescript": "^3.6.4"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "files": [
+    "lib"
+  ],
+  "license": "ISC",
+  "main": "./lib/index.js",
+  "name": "@driveit/publisher-lib",
+  "repository": {
+    "type": "git",
+    "url": "https://source.developers.google.com/p/tc3s-dev/r/publisher-lib"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build",
+    "test": "jest"
+  },
+  "typings": "./lib/index.d.ts",
+  "version": "1.0.20"
+}

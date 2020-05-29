@@ -60,3 +60,17 @@ exports.messageCommon = {
     INCORECT_TACCODE: "Invalid tac code. Please try again.",
     NOT_FOUND_TACCODE: "Sorry, we don't recognize this tac code. Please try again.",
 }
+
+exports.message = {
+    INCORRECT_DATA:"Incorrect data",
+    NAME_WRONG :"Name wrong",
+    NAME_DUPLICATE :"Name duplicate",
+    AGE_WRONG : "Age wrong",
+    SEX_WRONG :"Sex wrong",
+    BIRTH_DAY_WRONG :"Birth day wrong",
+    PHONE_WRONG : "Phone wrong",
+    ERROR: "Have some error",
+    ADD_SUCCESS: "Add success",
+    EDIT_SUCCESS: "Edit success",
+    DELETE_SUCCESS: "Delete success",
+  }

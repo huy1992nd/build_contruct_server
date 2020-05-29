@@ -1,0 +1,42 @@
+const Sequelize = require("sequelize");
+const StatusEnum = require('../enums/Status');
+
+module.exports = () => {
+    return {
+        id: {
+            type: Sequelize.UUID,
+            primaryKey: true,
+            defaultValue: Sequelize.UUIDV1
+        },
+        roleCode: {
+            type: Sequelize.STRING,
+        },
+        functionFlag: {
+            type: Sequelize.STRING,
+        },
+        value: {
+            type: Sequelize.STRING,
+        },
+        deleted: {
+            type: Sequelize.TINYINT,
+            allowNull: false
+        },
+        status: {
+            type: Sequelize.ENUM,
+            allowNull: false,
+            defaultValue: StatusEnum.ENABLED,
+            values: [StatusEnum.status],
+        },
+        inactivateReason: {
+            type: Sequelize.STRING,
+        },
+        createdBy: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        updatedBy: {
+            type: Sequelize.STRING,
+            allowNull: false
+        }
+    };
+}

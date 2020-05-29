@@ -2,129 +2,165 @@
 const ***table_u*** = require('../models').***table_u***;
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
+const message = require('../utils/messages').message;
+const statusCode = require('../utils/statusCode');
+const httpStatus = require('../utils/httpStatus');
+const Utils = require('../lib/@driveit/driveit-databases/utils/database.utils');
 class ***table***Service {
 
     add***table_u***(input) {
-        return new Promise((resolve, reject) => {
-            try {
-                let ***table***_create = ***dataField*** ;
-                ***table_u***.create(***table***_create)
-                .then(***table*** => {
-                    resolve(***table***)
-                })
-                .catch(err => {
-                    reject(err)
-                });
-            } catch (error) {
-                reject(error);
-            }
-            
-        })
+        let ***table***_create = ***dataField*** ;
+        return ***table_u***.create(***table***_create);
     }
 
     update***table_u***(input) {
-        return new Promise((resolve, reject) => {
-            try {
-                let id = input.id;
-                let data_update = ***dataField*** ;
-                ***table_u***.update(
-                    data_update,
-                    { where: { id } }
-                )
-                .then(result =>
-                    resolve(true)
-                )
-                .catch(err =>
-                    reject(err)
-                )
-            } catch (error) {
-                reject(error);
-            }
-        })
+            let id = input.id;
+            let data_update = ***dataField*** ;
+            return ***table_u***.update(
+                data_update,
+                { where: { id } }
+            )
     }
 
     delete***table_u***(id) {
-        return new Promise((resolve, reject) => {
-            try {
-                ***table_u***.update(
-                    { deleted: 1 },
-                    { where: { id } }
-                )
-                .then(result =>
-                    resolve(true)
-                )
-                .catch(err =>
-                    reject(err)
-                )
-            } catch (error) {
-                reject(error);
-            }
+        return ***table_u***.update(
+            { deleted: 1 },
+            { where: { id } }
+        )
+    }
+
+    search***table_u***(condition) {
+        let { page, limit, order, searches, filter } = condition;
+        let where = {
+        deleted: false,
+        }; //for filtering deleted
+
+        const andFilter = Utils.filterGenerator(filter);
+        if (andFilter && andFilter.length) {
+        where = {
+            ...where,
+            [Op.and]: andFilter
+        };
+        }
+
+        const orSearch = Utils.searchGeneratorV2(searches);
+        if (orSearch && orSearch.length) {
+        where = {
+            ...where,
+            [Op.or]: orSearch
+        };
+        }
+
+        const pagination = {
+        limit,
+        offset: limit ? limit * (page - 1) : undefined,
+        }
+
+        return  ***table_u***.findAndCountAll({
+            pagination,
+            where,
+            orderBy: order,
         })
     }
 
-    list***table_u***(str_search, limit, offset) {
-        return new Promise((resolve, reject) => {
-            try {
-                let options = {
-                    where: {
-                        deleted: 0
-                    }
-                };
-                if (str_search) {
-                    options = {
-                        offset: offset,
-                        limit: limit,
-                        where: {
-                            deleted: 0
-                        }
-                    };
-                }
-                ***table_u***.findAll(options)
-                    .then(result => {
-                        resolve(result)
-                    }
-                    )
-                    .catch(err => {
-                        console.log('err', err);
-                        reject(err)
-                    }
-                );
-            } catch (error) {
-                reject(error);
-            }
-        })
+    validateAdd(data, res) {
+        let error = {
+            status_code: 0,
+            message: ""
+        }
+        //More content in hear ....
+        if(error.status_code){
+            res.json({
+            code: error.status_code,
+            message: error.message
+            });
+        }
+        return error.status_code;
+    }
+
+    validateSearch(data, res) {
+        let error = {
+            status_code: 0,
+            message: ""
+        }
+        //More content in hear ....
+        if(error.status_code){
+            res.json({
+            code: error.status_code,
+            message: error.message
+            });
+        }
+        return error.status_code;
+    }
+
+    validateUpdate(data, res) {
+        let error = {
+            status_code: 0,
+            message: ""
+        }
+        if (!data.id || typeof (data.id) == "undefined") {
+            error.message = message.INCORRECT_DATA;
+            error.status_code = statusCode.INCORRECT_DATA;
+        }
+        //More content in hear ....
+        if(error.status_code){
+            res.json({
+                code: error.status_code,
+                message: error.message
+            });
+        }
+        return error.status_code;
+    }
+
+    validateDelete(data, res) {
+        let error = {
+            status_code: 0,
+            message: ""
+        }
+        if (!data.id || typeof (data.id) == "undefined") {
+            error.message = message.INCORRECT_DATA;
+            error.status_code = statusCode.INCORRECT_DATA;
+        }
+        //More content in hear ....
+        if(error.status_code){
+            res.json({
+                code: error.status_code,
+                message: error.message
+            });
+        }
+        return error.status_code;
     }
 
     checkDuplicate(name, id = null) {
         return new Promise((resolve, reject) => {
-            try {
-                let where = {
-                    name: name,
-                    deleted: 0
-                }
-                if (id) {
-                    where["id"] = {
-                        [Op.notIn]: [id]
-                    }
-                }
-                ***table_u***.findOne({
-                    where: where
-                })
-                .then(result => {
-                    if (result) {
-                        resolve(true);
-                    } else {
-                        resolve(false);
-                    }
-                })
-                .catch(err => {
-                    reject(err);
-                });
-            } catch (error) {
-                reject(error);
+        try {
+            let where = {
+            name: name,
+            deleted: 0
             }
+            if (id) {
+            where["id"] = {
+                [Op.notIn]: [id]
+            }
+            }
+            ***table_u***.findOne({
+            where: where
+            })
+            .then(result => {
+                if (result) {
+                resolve(true);
+                } else {
+                resolve(false);
+                }
+            })
+            .catch(err => {
+                reject(err);
+            });
+        } catch (error) {
+            reject(error);
+        }
         })
-    }
+    } 
 }
 
 module.exports = new ***table***Service();

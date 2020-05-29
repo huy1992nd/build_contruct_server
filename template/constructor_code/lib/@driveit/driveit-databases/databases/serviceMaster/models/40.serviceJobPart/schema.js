@@ -1,0 +1,119 @@
+const Sequelize = require("sequelize");
+const StatusEnum = require('../enums/Status');
+const errorDef = require('../../../../utils/error.codes');
+
+module.exports = () => {
+    return {
+        id: {
+            type: Sequelize.UUID,
+            primaryKey: true,
+            defaultValue: Sequelize.UUIDV1
+        },
+        jobPartNo: {
+            type: Sequelize.STRING,
+            allowNull: true
+        },
+        itemCategory:{
+            type: Sequelize.STRING
+        },
+        quantity:{
+            type: Sequelize.STRING
+        },
+        uomId:{
+            type: Sequelize.STRING,
+        },
+        materialMasterId:{
+            type: Sequelize.STRING,
+        },
+        description:{
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        unitPrice:{
+            type: Sequelize.STRING,
+        },
+        netPrice:{
+            type: Sequelize.STRING,
+            allowNull: true
+        },
+        changable:{
+            type: Sequelize.ENUM,
+            values: [StatusEnum.status],
+        },
+                relatedJobNo:{
+                    type: Sequelize.STRING,
+                },
+        relatedJobId:{
+            type: Sequelize.STRING,
+        },
+        relatedJobName: {
+            type: Sequelize.STRING,
+            allowNull: true
+        },
+        status: {
+            type: Sequelize.ENUM,
+            allowNull: false,
+            defaultValue: StatusEnum.ENABLED,
+            values: [StatusEnum.status],
+        },
+        inactivateReason: {
+            type: Sequelize.STRING,
+            allowNull: true
+        },
+        type:{
+            type: Sequelize.STRING,
+            allowNull: true
+        },
+        deleted: {
+            type: Sequelize.BOOLEAN,
+            allowNull: false,
+            defaultValue: false,
+            // validate: {
+            //     NOT_UNIQUE: function (deleted, next) {
+            //         if(deleted){
+            //             return next();
+            //         }
+
+            //         const Function = require('.')
+            //         let self = this;
+            //         return Function.getOne({id: self.id}).then((record)=> {
+            //             if(!record) return next();
+            //             //get all code
+            //             return Function.getAll({
+            //                 code: record.code
+            //                 })
+            //                 .then(function (record) {
+            //                     record.forEach((record) => {
+            //                         if (record && !record.deleted && self.id != record.id) {
+            //                             return next(errorDef.NOT_UNIQUE.message);
+            //                         }
+            //                     })
+            //                     return next();
+            //                 })
+            //                 .catch(function (err) {
+            //                     return next(err);
+            //                 });
+            //         })
+                   
+            //     }
+            // }
+        },
+        createdBy: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        updatedBy: {
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        taxable: {
+            type: Sequelize.BOOLEAN,
+            allowNull: true,
+            defaultValue: false,
+        },
+        taxAmount: {
+            type: Sequelize.STRING,
+            allowNull: true
+        }
+    };
+}
