@@ -9,13 +9,13 @@ class GenerateService {
         this.listFile = [];
     }
 
-    async generateCode() {
+    async generateCode(infor_table) {
         try {
             return new Promise(async (resolve, reject) => {
                 try {
                     console.log(this.type + ' ---> generateCode');
                     // get list file need generate
-                    let initListFile = await this.OnInitListFile();
+                    let initListFile = await this.OnInitListFile(infor_table);
                     if (!initListFile) {
                         return;
                     }
@@ -36,14 +36,14 @@ class GenerateService {
 
     }
 
-    OnInitListFile() {
+    OnInitListFile(infor_table) {
         console.log(this.type + 'aaa');
     }
 
     generateFile(file) {
         return new Promise(async (resolve, reject) => {
-            let contentFile = file.data_config;
             try {
+                let contentFile = file.data_config;
                 if (!file.set_data) {
                     let contentFileTemplate = await this.OnGetContentFileTemplate(file);
                     if (!contentFileTemplate) {

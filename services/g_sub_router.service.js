@@ -19,7 +19,7 @@ class GSubRouterService extends GenerateService {
                         type : "js",
                         data_config : {
                             "table": item.table,
-                            "table_u": item.table.charAt(0).toUpperCase() + item.table.slice(1)
+                            "table_u": Helper.upFirst(item.table)
                         },
                         template_file_name : "router.txt",
                         name : item.table + ".router.js",

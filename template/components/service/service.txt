@@ -1,5 +1,6 @@
 
 const ***table_u*** = require('../models').***table_u***;
+const models = require('../models');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const message = require('../utils/messages').message;
@@ -22,11 +23,22 @@ class ***table***Service {
             )
     }
 
-    delete***table_u***(id) {
-        return ***table_u***.update(
-            { deleted: 1 },
-            { where: { id } }
-        )
+    delete***table_u***(input) {
+        if(input.hard_delete){
+            return ***table_u***.destroy({
+                where:{
+                id: input.id
+                }
+            });
+        }else{
+            return ***table_u***.update({
+            deleted: 1
+            }, {
+                where: {
+                    id: input.id
+                }
+            });
+        }
     }
 
     search***table_u***(condition) {
@@ -51,14 +63,10 @@ class ***table***Service {
         };
         }
 
-        const pagination = {
-        limit,
-        offset: limit ? limit * (page - 1) : undefined,
-        }
-
         return  ***table_u***.findAndCountAll({
-            pagination,
             where,
+            limit: limit,
+            offset: limit ? limit * (page - 1) : undefined,
             orderBy: order,
         })
     }

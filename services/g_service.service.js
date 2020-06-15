@@ -2,6 +2,7 @@ var GenerateService = require('./generate.service');
 const Helper = require('../common/helper.class');
 const FILE_NAME = 'default.json';
 const g_define = require('../define');
+var pluralize = require('pluralize');
 class GServiceService extends GenerateService {
     constructor(data, project) {
         super(data, project);
@@ -9,21 +10,22 @@ class GServiceService extends GenerateService {
     }
 
     // @Overide
-    OnInitListFile() {
+    OnInitListFile(infor_table) {
         return new Promise((resolve, reject) =>{
             try {
                 this.listFile = [];
-                this.data.forEach((item, index)=>{
+                infor_table.list_table.forEach((table_name, index)=>{
+                    let table_name_singular = pluralize.singular(table_name);
                     let file_item = {
                         id : index,
                         type : "js",
                         data_config : {
-                            "table": item.table,
-                            "table_u": item.table.charAt(0).toUpperCase() + item.table.slice(1),
-                            "dataField": this.generateData(item.fields)
+                            "table": table_name_singular,
+                            "table_u": Helper.upFirst(table_name_singular),
+                            "dataField": this.generateData(infor_table.list_field[table_name])
                         },
                         template_file_name : "service.txt",
-                        name : item.table + ".service.js",
+                        name : table_name_singular + ".service.js",
                         dir_save : g_define.PATH.FOLDER.TMP.PROJECT+this.project.name+"/services/",
                     }
                     this.listFile.push(file_item);
@@ -38,7 +40,7 @@ class GServiceService extends GenerateService {
     // Private
     generateData(list_field){
         let data_create = 
-        Object.keys(list_field)
+        list_field
         .filter((field) => { return !['id', 'createdAt', 'updatedAt', 'deleted'].includes(field)})
         .map(field=>{
             return `${field}: input.${field}`

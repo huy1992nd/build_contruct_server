@@ -9,7 +9,7 @@ class GRouterService extends GenerateService {
     }
 
     // @Overide
-    OnInitListFile() {
+    OnInitListFile(infor_table) {
         return new Promise((resolve, reject) => {
             try {
                 this.listFile = [];
@@ -17,8 +17,8 @@ class GRouterService extends GenerateService {
                     id: 1,
                     type: "js",
                     data_config: {
-                        "listImport": this.generateListImport(this.data),
-                        "listRouter": this.generateListRouter(this.data)
+                        "listImport": this.generateListImport(infor_table.list_table_singular),
+                        "listRouter": this.generateListRouter(infor_table.list_table_singular)
                     },
                     template_file_name: "router.txt",
                     name: "router.js",
@@ -33,28 +33,33 @@ class GRouterService extends GenerateService {
     }
 
     // Private
-    generateListImport(list_model) {
+    generateListImport(list_table) {
         let result =
-            list_model
-                .map(model => {
-                    return `var ${model.table}Router = require('../router/${model.table}.router');`
+        list_table
+                .map(table_name => {
+                    let table_u = Helper.upFirst(table_name);
+                    return `const ${table_u}Controller = require('../controllers/${table_name}Controller');`
                 }).join(`
         `);
-        return `
-        ${result}
-        `;
+        return `${result}`;
     }
     // Private
-    generateListRouter(list_model) {
+    generateListRouter(list_table) {
         let result =
-            list_model
-                .map(model => {
-                    return `app.use('/api/${model.table}', keycloak.protect(), ${model.table}Router);`
+        list_table
+                .map(table_name => {
+                    let table_u = Helper.upFirst(table_name);
+                    return `/* ${table_u} router */
+                    const ${table_name}Router = express.Router();
+                    ${table_name}Router.post('', keycloak.protect(), (req, res, next) => ${table_u}Controller.add${table_u}(req, res, next));
+                    ${table_name}Router.put('', keycloak.protect(), (req, res, next) => ${table_u}Controller.update${table_u}(req, res, next));
+                    ${table_name}Router.delete('', keycloak.protect(), (req, res, next) => ${table_u}Controller.delete${table_u}(req, res, next));
+                    ${table_name}Router.post('/search' , keycloak.protect(),  (req, res, next) => ${table_u}Controller.search${table_u}(req, res, next));
+                    app.use('/api/${table_name}', ${table_name}Router);`
                 }).join(`
         `);
         return `
-        ${result}
-        `;
+        ${result}`;
     }
 
 }

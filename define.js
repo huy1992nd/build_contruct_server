@@ -13,7 +13,8 @@ module.exports = {
       },
       TMP : {
         PROJECT : './tmp/'
-      }
+      },
+      MODEL_RENDER : './template/model_render/'
     }
   }
 }

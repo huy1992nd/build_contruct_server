@@ -9,20 +9,20 @@ class GControllerService extends GenerateService {
     }
 
     // @Overide
-    OnInitListFile() {
+    OnInitListFile(infor_table) {
         return new Promise((resolve, reject) =>{
             try {
                 this.listFile = [];
-                this.data.forEach((item, index)=>{
+                infor_table.list_table_singular.forEach((table_name, index)=>{
                     let file_item = {
                         id : index,
                         type : "js",
                         data_config : {
-                            "table": item.table,
-                            "table_u": item.table.charAt(0).toUpperCase() + item.table.slice(1)
+                            "table": table_name,
+                            "table_u": Helper.upFirst(table_name)
                         },
                         template_file_name : "controller.txt",
-                        name : item.table + "Controller.js",
+                        name : table_name + "Controller.js",
                         dir_save : g_define.PATH.FOLDER.TMP.PROJECT+this.project.name+"/controllers/",
                     }
                     this.listFile.push(file_item);

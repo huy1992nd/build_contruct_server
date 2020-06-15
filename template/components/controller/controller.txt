@@ -1,4 +1,4 @@
-const ***table***Service = require('../services/***table***.service'); 
+const ***table***Service = require('../services/***table***.service');
 const define_a = require('../define');
 const message = require('../utils/messages').message;
 const httpStatus = require('../utils/httpStatus');
@@ -50,7 +50,7 @@ class ***table_u***Controller {
             if(***table***Service.validateDelete(body, res)){
                 return;
             }
-            await ***table***Service.delete***table_u***(body.id);
+            await ***table***Service.delete***table_u***(body);
             res.json({
                 code: statusCode.SUCCESS,
                 message: message.DELETE_SUCCESS

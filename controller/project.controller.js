@@ -28,22 +28,22 @@ class ProjectController {
             await Helper.removeFolder(this.project.name);
             // Clone contruct from template
             await Helper.cloneFolder(this.project.name);
+            // Get list table and save list model first time from database
+            let infor_table = await Helper.parseDatabase(this.project.data.config.env, this.project.name);
             // Generate file config
-            await this.GConfigService.generateCode();
+            await this.GConfigService.generateCode(infor_table);
             // Generate file db config
-            await this.GDBConfigService.generateCode();
+            await this.GDBConfigService.generateCode(infor_table);
             // Generate pakage.json file
-            await this.GPackageService.generateCode();
+            await this.GPackageService.generateCode(infor_table);
             // Generate models
-            await this.GModelService.generateCode();
+            await this.GModelService.generateCode(infor_table);
             // Generate controllers
-            await this.GControllerService.generateCode();
+            await this.GControllerService.generateCode(infor_table);
             // Generate services
-            await this.GServiceService.generateCode();
-            // Generate sub Router
-            await this.GSubRouterService.generateCode();
+            await this.GServiceService.generateCode(infor_table);
             // Generate router
-            await this.GRouterService.generateCode();
+            await this.GRouterService.generateCode(infor_table);
         } catch (error) {
             console.log('have error', error);
         }
