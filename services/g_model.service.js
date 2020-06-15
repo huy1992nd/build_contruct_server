@@ -56,7 +56,7 @@ class GModelService extends GenerateService {
             try {
                 let data_config = file.data_config;
                 let content = contentFileTemplate.replace(`/* jshint indent: 1 */`, `'use strict';`);
-                let content = content.replace(`return sequelize.define('${data_config.table_name}`, `var ${data_config.table_u} = sequelize.define('${data_config.table_u}`);
+                content = content.replace(`return sequelize.define('${data_config.table_name}`, `var ${data_config.table_u} = sequelize.define('${data_config.table_u}`);
                 content = content.replace(`});`, `});
                     ${data_config.associate}
                     return ${data_config.table_u}; 
