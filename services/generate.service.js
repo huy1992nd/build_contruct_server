@@ -1,4 +1,5 @@
 const fs = require('fs');
+const fse = require('fs-extra');
 const Helper = require('../common/helper.class');
 const g_define = require('../define');
 class GenerateService {
@@ -96,7 +97,7 @@ class GenerateService {
     OnSaveFile(contentFile, file) {
         return new Promise(async (resolve, reject) => {
             try {
-                await Helper.createFolderIfNotExit(file.dir_save);
+                await fse.ensureDir(file.dir_save);
                 let path_file = file.dir_save + "/" + file.name;
                 await Helper.saveFile(contentFile, path_file, file);
                 resolve(true);

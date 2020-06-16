@@ -1,5 +1,6 @@
 
 const g_define = require('../define');
+const fse = require('fs-extra');
 var GConfigService = require('../services/g_config.service');
 var GDBConfigService = require('../services/g_db_config.service');
 var GPackageService = require('../services/g_package.service');
@@ -25,9 +26,9 @@ class ProjectController {
     async generateProject() {
         try {
             // Remove old File
-            await Helper.removeFolder(this.project.name);
+            await fse.emptyDir(g_define.PATH.FOLDER.TMP.PROJECT + this.project.name);
             // Clone contruct from template
-            await Helper.cloneFolder(this.project.name);
+            await fse.copy(g_define.PATH.FOLDER.TEMPLATE.PROJECT, g_define.PATH.FOLDER.TMP.PROJECT + this.project.name);
             // Get list table and save list model first time from database
             let infor_table = await Helper.parseDatabase(this.project.data.config.env, this.project.name);
             // Generate file config
