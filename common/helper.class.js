@@ -29,7 +29,7 @@ class Helper {
                     host: dbInfor.host,
                     dialect: dbInfor.dialect,
                     directory: output, // prevents the program from writing to disk
-                    port: output.port ? output.port : '3306',
+                    port: dbInfor.port ? dbInfor.port : '3306',
                     output: output,
                     additional: {
                         timestamps: true
@@ -90,20 +90,6 @@ class Helper {
         })
     }
 
-    cloneFolder(project_name) {
-        return new Promise((resolve, reject) => {
-            try {
-                fse.copy(g_define.PATH.FOLDER.TEMPLATE.PROJECT, g_define.PATH.FOLDER.TMP.PROJECT + project_name)
-                    .then(() => {
-                        resolve(true)
-                    })
-                    .catch(err => reject(error))
-            } catch (error) {
-                reject(error);
-            }
-        })
-    }
-
     getContentFileTemplate(path_file) {
         return new Promise((resolve, reject) => {
             try {
@@ -128,7 +114,6 @@ class Helper {
         });
         return content;
     }
-
 
     saveFile(content, path_file_save, file) {
         console.log('path_file_save', path_file_save);

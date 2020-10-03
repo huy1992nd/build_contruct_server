@@ -51,6 +51,7 @@ class GRouterService extends GenerateService {
                     let table_u = Helper.upFirst(table_name);
                     return `/* ${table_u} router */
                     const ${table_name}Router = express.Router();
+                    ${table_name}Router.get('', keycloak.protect(), (req, res, next) => ${table_u}Controller.get${table_u}(req, res, next));
                     ${table_name}Router.post('', keycloak.protect(), (req, res, next) => ${table_u}Controller.add${table_u}(req, res, next));
                     ${table_name}Router.put('', keycloak.protect(), (req, res, next) => ${table_u}Controller.update${table_u}(req, res, next));
                     ${table_name}Router.delete('', keycloak.protect(), (req, res, next) => ${table_u}Controller.delete${table_u}(req, res, next));

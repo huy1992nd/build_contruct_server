@@ -5,8 +5,7 @@ const models = require('../models');
 const Project = models.Project;
 const projectController  = require ('./project.controller');
 const Helper = require('../common/helper.class');
-// let OkexController = require('./exchanges/okex.res.controller');
-// Class to manage gateways
+
 class AppController {
     constructor() {
         this.gatewayInfos = {};             // Store gateway objects

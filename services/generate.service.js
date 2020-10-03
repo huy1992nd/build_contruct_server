@@ -1,6 +1,6 @@
 const fs = require('fs');
-const fse = require('fs-extra');
 const Helper = require('../common/helper.class');
+const fse = require('fs-extra');
 const g_define = require('../define');
 class GenerateService {
     constructor(data, project) {

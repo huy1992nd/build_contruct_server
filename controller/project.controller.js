@@ -12,6 +12,7 @@ var GRouterService = require('../services/g_router.service');
 const Helper = require('../common/helper.class');
 class ProjectController {
     constructor(project) {
+        console.log(JSON.stringify( project));
         this.project = project;
         this.GConfigService = new GConfigService(project.data.config.env, project);
         this.GDBConfigService = new GDBConfigService(project.data.config.env, project);
@@ -28,7 +29,7 @@ class ProjectController {
             // Remove old File
             await fse.emptyDir(g_define.PATH.FOLDER.TMP.PROJECT + this.project.name);
             // Clone contruct from template
-            await fse.copy(g_define.PATH.FOLDER.TEMPLATE.PROJECT, g_define.PATH.FOLDER.TMP.PROJECT + this.project.name);
+            await fse.copy(g_define.PATH.FOLDER.TEMPLATE.PROJECT, g_define.PATH.FOLDER.TMP.PROJECT + this.project.name)
             // Get list table and save list model first time from database
             let infor_table = await Helper.parseDatabase(this.project.data.config.env, this.project.name);
             // Generate file config

@@ -8,10 +8,36 @@ class ***table_u***Controller {
     constructor() {
     }
 
+    async get***table_u***(req, res, next) {
+        try {
+            let body = req.query;
+            if(***table***Service.validateGet(body, res)){
+                return;
+            }
+            let result = await ***table***Service.get***table_u***(body);
+            res.json({
+                code: statusCode.SUCCESS,
+                data: result
+            });
+        } catch (error) {
+            error.status = httpStatus.SERVER_ERROR;
+            next(error);
+        }
+
+    }
+
     async add***table_u***(req, res, next) {
         try {
             let body = req.body;
             if(***table***Service.validateAdd(body, res)){
+                return;
+            }
+           let duplicate = await ***table***Service.checkDuplicate(body.name);
+            if(duplicate){
+                res.json({
+                    code: statusCode.ALREADY_EXIST,
+                    message: message.NAME_DUPLICATE
+                });
                 return;
             }
             await ***table***Service.add***table_u***(body);
@@ -31,6 +57,14 @@ class ***table_u***Controller {
             let body = req.body;
             console.log('body', body);
             if(***table***Service.validateUpdate(body, res)){
+                return;
+            }
+            let duplicate = await ***table***Service.checkDuplicate(body.name, body.id);
+            if(duplicate){
+                res.json({
+                    code: statusCode.ALREADY_EXIST,
+                    message: message.NAME_DUPLICATE
+                });
                 return;
             }
             await ***table***Service.update***table_u***(body);
@@ -70,7 +104,7 @@ class ***table_u***Controller {
             let list_***table*** = await ***table***Service.search***table_u***(body);
             res.json({
                 code: statusCode.SUCCESS,
-                list_***table***: list_***table***
+                data: list_***table***
             });
         } catch (error) {
             error.status = httpStatus.SERVER_ERROR;

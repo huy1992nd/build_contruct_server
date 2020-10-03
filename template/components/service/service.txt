@@ -6,17 +6,23 @@ const Op = Sequelize.Op;
 const message = require('../utils/messages').message;
 const statusCode = require('../utils/statusCode');
 const httpStatus = require('../utils/httpStatus');
-const Utils = require('../lib/@driveit/driveit-databases/utils/database.utils');
+const Utils = require('../lib/tc-itech/common/utils/database.utils');
 class ***table***Service {
 
+    get***table_u***(where) {
+        return  ***table_u***.find({
+            where : where
+        })
+    }
+
     add***table_u***(input) {
-        let ***table***_create = ***dataField*** ;
+        let ***table***_create = input ;
         return ***table_u***.create(***table***_create);
     }
 
     update***table_u***(input) {
             let id = input.id;
-            let data_update = ***dataField*** ;
+            let data_update = input ;
             return ***table_u***.update(
                 data_update,
                 { where: { id } }
@@ -67,8 +73,23 @@ class ***table***Service {
             where,
             limit: limit,
             offset: limit ? limit * (page - 1) : undefined,
-            orderBy: order,
+            order: order,
         })
+    }
+
+    validateGet(data, res) {
+        let error = {
+            status_code: 0,
+            message: ""
+        }
+        //More content in hear ....
+        if(error.status_code){
+            res.json({
+            code: error.status_code,
+            message: error.message
+            });
+        }
+        return error.status_code;
     }
 
     validateAdd(data, res) {
@@ -168,7 +189,43 @@ class ***table***Service {
             reject(error);
         }
         })
-    } 
+    }
+    checkMultilDuplicate(body, list_condition, id = null) {
+        let or = [];
+        list_condition.forEach(c => {
+            let item_p = {};
+            item_p[c] = body[c];
+            or.push(item_p);
+        })
+        return new Promise((resolve, reject) => {
+            try {
+                let where = {
+                    [Op.or]: or,
+                    deleted: 0
+                }
+                if (id) {
+                    where["id"] = {
+                        [Op.notIn]: [id]
+                    }
+                }
+                ***table_u***.findOne({
+                    where: where
+                })
+                    .then(result => {
+                        if (result) {
+                            resolve(true);
+                        } else {
+                            resolve(false);
+                        }
+                    })
+                    .catch(err => {
+                        reject(err);
+                    });
+            } catch (error) {
+                reject(error);
+            }
+        })
+    }     
 }
 
 module.exports = new ***table***Service();

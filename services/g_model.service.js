@@ -89,7 +89,7 @@ class GModelService extends GenerateService {
         `) : "";
         let comma = listBelongsTo.length && listHasMany.length ? `,
         ` : "";
-        if(listBelongsTo.length && listHasMany.length){
+        if(listBelongsTo.length || listHasMany.length){
             return `${table_u}.associate = (models) => {
                     ${belongsTo_str}${comma}${hasMany_str}
                 }`;
