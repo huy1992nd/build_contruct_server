@@ -6,7 +6,7 @@
     "start": "node index.js"
   },
   "dependencies": {
-    "config": "^2.0.2",
+    "config": "^3.3.8",
     "fs": "0.0.1-security",
     "fs-extra": "^9.0.0",
     "js-beautify": "^1.11.0",
